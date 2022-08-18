@@ -1,0 +1,393 @@
+openapi: 3.0.3
+info:
+  title: Webchat API
+  description: |-
+    API for a webchat project
+  contact:
+    email: mylesh.dev@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+tags:
+  - name: message
+paths:
+  /message/create:
+    post:
+      tags:
+        - message
+      summary: create message
+      operationId: messageCreate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageCreateRequest'
+      responses:
+        200:
+          description: backend response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageCreateResponse'
+  /message/read:
+    post:
+      tags:
+        - message
+      summary: Read message
+      operationId: messageRead
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageReadRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageReadResponse'
+  /message/update:
+    post:
+      tags:
+        - message
+      summary: Update message
+      operationId: messageUpdate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageUpdateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageUpdateResponse'
+  /message/delete:
+    post:
+      tags:
+        - message
+      summary: Delete message
+      operationId: messageDelete
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageDeleteRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageDeleteResponse'
+  /message/search:
+    post:
+      tags:
+        - message
+      summary: Search message
+      operationId: messageSearch
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageSearchRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageSearchResponse'
+
+components:
+  schemas:
+    IRequest:
+      type: object
+      description: Базовый интерфейс для всех запросов
+      properties:
+        requestType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+        requestId:
+          type: string
+          description: Идентификатор запроса для отладки
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/MessageCreateRequest'
+          read:   '#/components/schemas/MessageReadRequest'
+          update: '#/components/schemas/MessageUpdateRequest'
+          delete: '#/components/schemas/MessageDeleteRequest'
+          search: '#/components/schemas/MessageSearchRequest'
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+
+    ResponseResult:
+      type: string
+      enum:
+        - success
+        - error
+
+    IResponse:
+      type: object
+      description: Базовый интерфейс для всех ответов
+      properties:
+        responseType:
+          type: string
+          description: Поле-дескриминатор для вычисления типа запроса
+          example: create
+        requestId:
+          type: string
+          description: Идентификатор запроса для отладки
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+
+      discriminator:
+        propertyName: responseType
+        mapping:
+          create: '#/components/schemas/MessageCreateResponse'
+          read:   '#/components/schemas/MessageReadResponse'
+          update: '#/components/schemas/MessageUpdateResponse'
+          delete: '#/components/schemas/MessageDeleteResponse'
+          search: '#/components/schemas/MessageSearchResponse'
+
+    UserId:
+      type: string
+      description: Идентификатор пользователя
+    MessageId:
+      type: string
+      description: Идентификатор сообщения
+    Timestamp:
+      type: string
+      description: Время отправки сообщения
+    MessageLock:
+      type: string
+      description: Версия оптимистичной блокировки
+
+    BaseMessage:
+      type: object
+      description: Объект описывает свойства, одинаковые для create и update
+      properties:
+        userId:
+          type: string
+          description: Автор сообщения
+        timestamp:
+          type: string
+          description: Время отправки сообщения
+        content:
+          type: string
+          description: Содержание сообщения
+
+    MessageCreateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+
+    MessageCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/MessageRequestDebug'
+        - type: object
+          properties:
+            message:
+              $ref: '#/components/schemas/MessageCreateObject'
+
+    MessageReadObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/MessageId'
+
+    MessageReadRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/MessageRequestDebug'
+        - type: object
+          properties:
+            message:
+              $ref: '#/components/schemas/MessageReadObject'
+
+    MessageUpdateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/MessageId'
+            lock:
+              $ref: '#/components/schemas/MessageLock'
+
+    MessageUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/MessageRequestDebug'
+        - type: object
+          properties:
+            message:
+              $ref: '#/components/schemas/MessageUpdateObject'
+
+    MessageDeleteObject:
+      allOf:
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/MessageId'
+            lock:
+              $ref: '#/components/schemas/MessageLock'
+
+    MessageDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/MessageRequestDebug'
+        - type: object
+          properties:
+            message:
+              $ref: '#/components/schemas/MessageDeleteObject'
+
+    MessageSearchFilter:
+      type: object
+      description: Набор фильтров для поиска
+      properties:
+        searchString:
+          type: string
+          description: Строка, по которой будут искать сообщения
+
+    MessageSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/MessageRequestDebug'
+        - type: object
+          properties:
+            MessageFilter:
+              $ref: '#/components/schemas/MessageSearchFilter'
+
+    MessageResponseObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - type: object
+          description: Объект, который возвращается в ответе бэкенда
+          properties:
+            id:
+              $ref: '#/components/schemas/MessageId'
+            userId:
+              $ref: '#/components/schemas/UserId'
+            timestamp:
+              $ref: '#/components/schemas/Timestamp'
+            lock:
+              $ref: '#/components/schemas/MessageLock'
+            permissions:
+              type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/MessagePermissions'
+
+    MessagePermissions:
+      type: string
+      description: Доступы для клиента для операций над сообщением
+      enum:
+        - read
+        - write
+        - update
+        - delete
+
+    MessageResponseSingle:
+      allOf:
+        - type: object
+          description: Ответ с одним объектом
+          properties:
+            ad:
+              $ref: '#/components/schemas/MessageResponseObject'
+
+    MessageResponseMulti:
+      allOf:
+        - type: object
+          description: Список найденных объектов
+          properties:
+            ads:
+              type: array
+              items:
+                $ref: '#/components/schemas/MessageResponseObject'
+
+    MessageCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/MessageResponseSingle'
+
+    MessageReadResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/MessageResponseSingle'
+
+    MessageUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/MessageResponseSingle'
+
+    MessageDeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/MessageResponseSingle'
+
+    MessageSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/MessageResponseMulti'
+
+    # STUBS ======================
+    MessageRequestDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+
+    MessageRequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/MessageDebug'
+
+    MessageDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/MessageRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/MessageRequestDebugStubs'
+
+    MessageRequestDebugStubs:
+      type: string
+      description: Перечисления всех стабов
+      enum:
+        - success
+        - notFound
+        - badId
+        - cannotUpdate
+        - cannotDelete
