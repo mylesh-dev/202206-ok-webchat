@@ -16,7 +16,7 @@ paths:
     post:
       tags:
         - message
-      summary: create message
+      summary: Create message
       operationId: messageCreate
       requestBody:
         content:
