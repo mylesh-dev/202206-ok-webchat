@@ -1,6 +1,6 @@
-package net.murzikov.webchat.api.v1
+package net.murzikov.webchat.api
 
-import net.murzikov.webchat.api.v1.models.*
+import net.murzikov.webchat.api.models.*
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals

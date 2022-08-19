@@ -22,8 +22,8 @@ sourceSets {
  * Настраиваем генерацию здесь
  */
 openApiGenerate {
-    val openapiGroup = "${rootProject.group}.api.v1"
-    generatorName.set("kotlin") // Это и есть активный генератор
+    val openapiGroup = "${rootProject.group}.api"
+    generatorName.set("kotlin")
     packageName.set(openapiGroup)
     apiPackage.set("$openapiGroup.api")
     modelPackage.set("$openapiGroup.models")

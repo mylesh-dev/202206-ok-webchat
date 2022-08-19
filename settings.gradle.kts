@@ -17,4 +17,5 @@ pluginManagement {
 }
 
 include("ok-webchat-common")
+include("ok-webchat-mappers")
 include("ok-webchat-transport-main-openapi")
