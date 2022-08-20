@@ -7,5 +7,6 @@ data class ChatMessage(
     var id: ChatMessageId = ChatMessageId.NONE,
     var timestamp: Instant = Instant.NONE,
     var content: String = "",
-    var userId: ChatlUserId = ChatlUserId.NONE
+    var userId: ChatlUserId = ChatlUserId.NONE,
+    val permissionsClient: MutableSet<ChatMessagePermissionClient> = mutableSetOf()
 )
