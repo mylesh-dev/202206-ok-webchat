@@ -19,7 +19,7 @@ sourceSets {
 
 
 /**
- * Настраиваем генерацию здесь
+ * РќР°СЃС‚СЂР°РёРІР°РµРј РіРµРЅРµСЂР°С†РёСЋ Р·РґРµСЃСЊ
  */
 openApiGenerate {
     val openapiGroup = "${rootProject.group}.api"
@@ -31,7 +31,7 @@ openApiGenerate {
     inputSpec.set("$rootDir/specs/spec-webchat-v1.yaml")
 
     /**
-     * Здесь указываем, что нам нужны только модели, все остальное не нужно
+     * Р—РґРµСЃСЊ СѓРєР°Р·С‹РІР°РµРј, С‡С‚Рѕ РЅР°Рј РЅСѓР¶РЅС‹ С‚РѕР»СЊРєРѕ РјРѕРґРµР»Рё, РІСЃРµ РѕСЃС‚Р°Р»СЊРЅРѕРµ РЅРµ РЅСѓР¶РЅРѕ
      */
     globalProperties.apply {
         put("models", "")
@@ -39,7 +39,7 @@ openApiGenerate {
     }
 
     /**
-     * Настройка дополнительных параметров из документации по генератору
+     * РќР°СЃС‚СЂРѕР№РєР° РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹С… РїР°СЂР°РјРµС‚СЂРѕРІ РёР· РґРѕРєСѓРјРµРЅС‚Р°С†РёРё РїРѕ РіРµРЅРµСЂР°С‚РѕСЂСѓ
      * https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/kotlin.md
      */
     configOptions.set(
