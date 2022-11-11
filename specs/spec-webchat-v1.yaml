@@ -115,15 +115,15 @@ components:
   schemas:
     IRequest:
       type: object
-      description: Базовый интерфейс для всех запросов
+      description: Р‘Р°Р·РѕРІС‹Р№ РёРЅС‚РµСЂС„РµР№СЃ РґР»СЏ РІСЃРµС… Р·Р°РїСЂРѕСЃРѕРІ
       properties:
         requestType:
           type: string
-          description: Поле-дескриминатор для вычисления типа запроса
+          description: РџРѕР»Рµ-РґРµСЃРєСЂРёРјРёРЅР°С‚РѕСЂ РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ С‚РёРїР° Р·Р°РїСЂРѕСЃР°
           example: create
         requestId:
           type: string
-          description: Идентификатор запроса для отладки
+          description: РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р·Р°РїСЂРѕСЃР° РґР»СЏ РѕС‚Р»Р°РґРєРё
       discriminator:
         propertyName: requestType
         mapping:
@@ -153,15 +153,15 @@ components:
 
     IResponse:
       type: object
-      description: Базовый интерфейс для всех ответов
+      description: Р‘Р°Р·РѕРІС‹Р№ РёРЅС‚РµСЂС„РµР№СЃ РґР»СЏ РІСЃРµС… РѕС‚РІРµС‚РѕРІ
       properties:
         responseType:
           type: string
-          description: Поле-дескриминатор для вычисления типа запроса
+          description: РџРѕР»Рµ-РґРµСЃРєСЂРёРјРёРЅР°С‚РѕСЂ РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ С‚РёРїР° Р·Р°РїСЂРѕСЃР°
           example: create
         requestId:
           type: string
-          description: Идентификатор запроса для отладки
+          description: РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р·Р°РїСЂРѕСЃР° РґР»СЏ РѕС‚Р»Р°РґРєРё
         result:
           $ref: '#/components/schemas/ResponseResult'
         errors:
@@ -180,30 +180,30 @@ components:
 
     UserId:
       type: string
-      description: Идентификатор пользователя
+      description: РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
     MessageId:
       type: string
-      description: Идентификатор сообщения
+      description: РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЃРѕРѕР±С‰РµРЅРёСЏ
     Timestamp:
       type: string
-      description: Время отправки сообщения
+      description: Р’СЂРµРјСЏ РѕС‚РїСЂР°РІРєРё СЃРѕРѕР±С‰РµРЅРёСЏ
     MessageLock:
       type: string
-      description: Версия оптимистичной блокировки
+      description: Р’РµСЂСЃРёСЏ РѕРїС‚РёРјРёСЃС‚РёС‡РЅРѕР№ Р±Р»РѕРєРёСЂРѕРІРєРё
 
     BaseMessage:
       type: object
-      description: Объект описывает свойства, одинаковые для create и update
+      description: РћР±СЉРµРєС‚ РѕРїРёСЃС‹РІР°РµС‚ СЃРІРѕР№СЃС‚РІР°, РѕРґРёРЅР°РєРѕРІС‹Рµ РґР»СЏ create Рё update
       properties:
         userId:
           type: string
-          description: Автор сообщения
+          description: РђРІС‚РѕСЂ СЃРѕРѕР±С‰РµРЅРёСЏ
         timestamp:
           type: string
-          description: Время отправки сообщения
+          description: Р’СЂРµРјСЏ РѕС‚РїСЂР°РІРєРё СЃРѕРѕР±С‰РµРЅРёСЏ
         content:
           type: string
-          description: Содержание сообщения
+          description: РЎРѕРґРµСЂР¶Р°РЅРёРµ СЃРѕРѕР±С‰РµРЅРёСЏ
 
     MessageCreateObject:
       allOf:
@@ -273,11 +273,11 @@ components:
 
     MessageSearchFilter:
       type: object
-      description: Набор фильтров для поиска
+      description: РќР°Р±РѕСЂ С„РёР»СЊС‚СЂРѕРІ РґР»СЏ РїРѕРёСЃРєР°
       properties:
         searchString:
           type: string
-          description: Строка, по которой будут искать сообщения
+          description: РЎС‚СЂРѕРєР°, РїРѕ РєРѕС‚РѕСЂРѕР№ Р±СѓРґСѓС‚ РёСЃРєР°С‚СЊ СЃРѕРѕР±С‰РµРЅРёСЏ
 
     MessageSearchRequest:
       allOf:
@@ -292,7 +292,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/BaseMessage'
         - type: object
-          description: Объект, который возвращается в ответе бэкенда
+          description: РћР±СЉРµРєС‚, РєРѕС‚РѕСЂС‹Р№ РІРѕР·РІСЂР°С‰Р°РµС‚СЃСЏ РІ РѕС‚РІРµС‚Рµ Р±СЌРєРµРЅРґР°
           properties:
             id:
               $ref: '#/components/schemas/MessageId'
@@ -310,7 +310,7 @@ components:
 
     MessagePermissions:
       type: string
-      description: Доступы для клиента для операций над сообщением
+      description: Р”РѕСЃС‚СѓРїС‹ РґР»СЏ РєР»РёРµРЅС‚Р° РґР»СЏ РѕРїРµСЂР°С†РёР№ РЅР°Рґ СЃРѕРѕР±С‰РµРЅРёРµРј
       enum:
         - read
         - write
@@ -320,7 +320,7 @@ components:
     MessageResponseSingle:
       allOf:
         - type: object
-          description: Ответ с одним объектом
+          description: РћС‚РІРµС‚ СЃ РѕРґРЅРёРј РѕР±СЉРµРєС‚РѕРј
           properties:
             message:
               $ref: '#/components/schemas/MessageResponseObject'
@@ -328,7 +328,7 @@ components:
     MessageResponseMulti:
       allOf:
         - type: object
-          description: Список найденных объектов
+          description: РЎРїРёСЃРѕРє РЅР°Р№РґРµРЅРЅС‹С… РѕР±СЉРµРєС‚РѕРІ
           properties:
             messages:
               type: array
@@ -384,7 +384,7 @@ components:
 
     MessageRequestDebugStubs:
       type: string
-      description: Перечисления всех стабов
+      description: РџРµСЂРµС‡РёСЃР»РµРЅРёСЏ РІСЃРµС… СЃС‚Р°Р±РѕРІ
       enum:
         - success
         - notFound
